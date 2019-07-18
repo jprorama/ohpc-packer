@@ -22,8 +22,7 @@
       "sudo yum install -y epel-release",
       "sudo yum install -y ansible git vim bash-completion",
       "sudo yum install -y NetworkManager",
-      "sudo systemctl restart NetworkManager",
-      "sudo nmcli con mod 'Wired connection 1' connection.id 'eth1'"
+      "sudo systemctl restart NetworkManager"
     ]
    },
 
