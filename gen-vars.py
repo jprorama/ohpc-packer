@@ -5,6 +5,7 @@ import json
 
 external_network = "dmznet"
 internal_network = "clusternet"
+bright_network = "bright-external-flat-externalnet"
 
 var = {
     'build_instance_name': 'compute',
@@ -22,10 +23,22 @@ external_net = check_output('openstack network list --name {} -c ID -f value'.fo
 # get internal network id
 internal_net = check_output('openstack network list --name {} -c ID -f value'.format(internal_network), shell=True).strip()
 
+# find usable floating ip
+floating_ip = check_output('openstack floating ip list -c "Floating IP Address" --sort-column ID --status DOWN -f value', shell=True).split("\n")[0]
+
+# allocate one if no usable
+if floating_ip == "":
+  print("No free floating ip\nCreating...")
+  floating_ip = check_output('openstack floating ip create -c floating_ip_address -f value {}'.format(bright_network), shell=True).strip()
+
+# find usable floating ip id
+floating_ip_id = check_output('openstack floating ip list -c ID --sort-column ID --status DOWN -f value', shell=True).split("\n")[0]
 
 var['external-net'] = external_net
 var['internal-net'] = internal_net
 var['instance_floating_ip_net']= external_net
+var['floating_ip']= floating_ip_id
 var['ssh_host'] = '164.111.161.138'
+
 with open('vars-test.json', 'w') as f:  # writing JSON object 
     json.dump(var, f, indent=8)
