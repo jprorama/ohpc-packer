@@ -3,16 +3,22 @@
 import subprocess
 import json
 
+external_network = "dmznet"
+internal_network = "clusternet"
+
 #def subprocess_cmd(command):
 #    process = subprocess.Popen(command,stdout=subprocess.PIPE, shell=True)
 #    proc_stdout = process.communicate()[0].strip()
     #print(proc_stdout.decode('utf-8'))
 
-external_net_ID_val = subprocess.check_output('openstack network list | grep dmznet | cut -f2 -d "|"', shell=True).strip().decode('utf-8')
+# get external network id
+external_net_ID_val = subprocess.check_output('openstack network list --name {} -c ID -f value'.format(external_network), shell=True).strip()
 
-internal_net_ID_val = subprocess.check_output('openstack network list | grep clusternet | cut -f2 -d "|"', shell=True).strip().decode('utf-8')
+# get internal network id
+internal_net_ID_val = subprocess.check_output('openstack network list --name {} -c ID -f value'.format(internal_network), shell=True).strip()
 
-instance_floating_ip_net_ID_val = subprocess.check_output('openstack network list | grep dmznet | cut -f2 -d "|"', shell=True).strip().decode('utf-8')
+# get network id to attach floating ip
+instance_floating_ip_net_ID_val = subprocess.check_output('openstack network list --name {} -c ID -f value'.format(external_network), shell=True).strip()
 
 var = {} 
 
