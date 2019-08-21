@@ -1,16 +1,16 @@
 #!/usr/bin/env python
 
-import subprocess
+from subprocess import check_output
 import json
 
 external_network = "dmznet"
 internal_network = "clusternet"
 
 # get external network id
-external_net_ID_val = subprocess.check_output('openstack network list --name {} -c ID -f value'.format(external_network), shell=True).strip()
+external_net_ID_val = check_output('openstack network list --name {} -c ID -f value'.format(external_network), shell=True).strip()
 
 # get internal network id
-internal_net_ID_val = subprocess.check_output('openstack network list --name {} -c ID -f value'.format(internal_network), shell=True).strip()
+internal_net_ID_val = check_output('openstack network list --name {} -c ID -f value'.format(internal_network), shell=True).strip()
 
 var = {} 
 
