@@ -6,6 +6,7 @@ import json
 external_network = "dmznet"
 internal_network = "clusternet"
 bright_network = "bright-external-flat-externalnet"
+host_prefix = "164.111.161.{}"
 
 var = {
     'build_instance_name': 'compute',
@@ -38,7 +39,7 @@ var['external-net'] = external_net
 var['internal-net'] = internal_net
 var['instance_floating_ip_net']= external_net
 var['floating_ip']= floating_ip_id
-var['ssh_host'] = '164.111.161.138'
+var['ssh_host'] = host_prefix.format(floating_ip.split('.')[-1])
 
 with open('vars-test.json', 'w') as f:  # writing JSON object 
     json.dump(var, f, indent=8)
