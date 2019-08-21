@@ -41,5 +41,5 @@ var['instance_floating_ip_net']= external_net
 var['floating_ip']= floating_ip_id
 var['ssh_host'] = host_prefix.format(floating_ip.split('.')[-1])
 
-with open('vars-test.json', 'w') as f:  # writing JSON object 
+with open('vars.json', 'w') as f:  # writing JSON object
     json.dump(var, f, indent=8)
