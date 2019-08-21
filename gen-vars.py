@@ -6,11 +6,6 @@ import json
 external_network = "dmznet"
 internal_network = "clusternet"
 
-#def subprocess_cmd(command):
-#    process = subprocess.Popen(command,stdout=subprocess.PIPE, shell=True)
-#    proc_stdout = process.communicate()[0].strip()
-    #print(proc_stdout.decode('utf-8'))
-
 # get external network id
 external_net_ID_val = subprocess.check_output('openstack network list --name {} -c ID -f value'.format(external_network), shell=True).strip()
 
