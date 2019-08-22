@@ -3,9 +3,11 @@
 from subprocess import check_output
 import json
 
+# User defined
 external_network = "dmznet"
 internal_network = "clusternet"
 bright_network = "bright-external-flat-externalnet"
+ssh_keypair = "os-gen-keypair"
 host_prefix = "164.111.161.{}"
 
 var = {
@@ -14,7 +16,7 @@ var = {
     'source_image_name': 'CentOS-7-x86_64-GenericCloud-1905',
     'private_key_file': '~/.ssh/id_rsa',
     'ssh_username': 'centos',
-    'ssh_keypair_name': 'os-gen-keypair',
+    'ssh_keypair_name': ssh_keypair,
     'flavor': 'm1.medium'
     }
 
