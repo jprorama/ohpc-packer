@@ -5,6 +5,7 @@ import sys
 import json
 
 # User defined
+filename = "compute-vars.json"
 external_network = "dmznet"
 internal_network = "clusternet"
 bright_network = "bright-external-flat-externalnet"
@@ -45,7 +46,7 @@ var['floating_ip']= floating_ip_id
 var['ssh_host'] = host_prefix.format(floating_ip.split('.')[-1])
 
 print(json.dumps(var, indent=4))
-with open('vars.json', 'w') as f:  # writing JSON object
+with open(filename, 'w') as f:  # writing JSON object
     json.dump(var, f, indent=8)
 
-call('packer build --var-file=vars.json compute-openstack.json', stdout=sys.stdout, shell=True)
+call('packer build --var-file={} compute-openstack.json'.format(filename), stdout=sys.stdout, shell=True)
