@@ -23,21 +23,21 @@ var = {
     }
 
 # get external network id
-external_net = check_output('openstack network list --name {} -c ID -f value'.format(external_network), shell=True).strip()
+external_net = check_output('openstack network list --name {} -c ID -f value'.format(external_network), shell=True).decode('utf-8').strip()
 
 # get internal network id
-internal_net = check_output('openstack network list --name {} -c ID -f value'.format(internal_network), shell=True).strip()
+internal_net = check_output('openstack network list --name {} -c ID -f value'.format(internal_network), shell=True).decode('utf-8').strip()
 
 # find usable floating ip
-floating_ip = check_output('openstack floating ip list -c "Floating IP Address" --sort-column ID --status DOWN -f value', shell=True).split("\n")[0]
+floating_ip = check_output('openstack floating ip list -c "Floating IP Address" --sort-column ID --status DOWN -f value', shell=True).decode('utf-8').split("\n")[0]
 
 # allocate one if no usable
 if floating_ip == "":
   print("No free floating ip\nCreating...")
-  floating_ip = check_output('openstack floating ip create -c floating_ip_address -f value {}'.format(bright_network), shell=True).strip()
+  floating_ip = check_output('openstack floating ip create -c floating_ip_address -f value {}'.format(public_network), shell=True).decode('utf-8').strip()
 
 # find usable floating ip id
-floating_ip_id = check_output('openstack floating ip list -c ID --sort-column ID --status DOWN -f value', shell=True).split("\n")[0]
+floating_ip_id = check_output('openstack floating ip list -c ID --sort-column ID --status DOWN -f value', shell=True).decode('utf-8').split("\n")[0]
 
 var['external-net'] = external_net
 var['internal-net'] = internal_net
