@@ -35,7 +35,7 @@
    {
     "type": "shell",
     "inline": [
-      "sudo ansible-playbook -c local -i /CRI_XCBC/hosts -l `hostname -s` /CRI_XCBC/ood.yaml -b"
+      "sudo ansible-playbook -c local -i /CRI_XCBC/hosts /CRI_XCBC/ood-build.yaml -b"
     ]
    }
   ]
