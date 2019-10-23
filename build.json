@@ -1,24 +1,23 @@
 {
   "builders": [{
 	  "type": "openstack",
-	  "source_image_name": "CentOS-7-x86_64-GenericCloud-1905",
-	  "networks": ["a70b32fd-e920-4f74-8dcf-e4a5ed33dbe9", "f1db21a7-51ce-4f92-b007-e43d7774b6d2"], 
-	  "image_name": "ohpc",
-          "image_members": ["46c01a921a7342e8858ca0f68cc99fc6"],
-          "image_visibility": "shared",
-	  "ssh_username": "centos",
-	  "ssh_keypair_name": "jpr-laptop",
-	  "ssh_private_key_file": "~/.ssh/id_rsa",
-	  "ssh_host": "164.111.161.143",
+	  "source_image_name": "{{ user `source_image_name` }}",
+	  "networks": [ "{{ user `external-net-ID` }}","{{ user `internal-net-ID` }}"], 
+	  "instance_floating_ip_net": "{{ user `external-net-ID` }}",
+	  "instance_name": "{{ user `build_instance_name` }}",
+	  "image_name": "{{ user `build_instance_name` }}-V{{user `img_build_version`}}",
+	  "ssh_username": "{{ user `ssh_username` }}",
+	  "ssh_keypair_name": "{{ user `ssh_keypair_name` }}",
+	  "ssh_private_key_file": "{{ user `private_key_file-path` }}",
+	  "ssh_host": "{{ user `ssh_host-IP` }}",
 	  "reuse_ips": true,
-	  "ssh_username": "centos",
-	  "flavor": "m1.medium"
+	  "flavor": "{{ user `flavor` }}"
   }],
   "provisioners": [
    {
     "type": "shell",
     "inline": [
-      "sudo mkdir -p /CRI_XCBC && sudo chown centos: /CRI_XCBC",
+      "sudo mkdir -p /CRI_XCBC && sudo chown {{ user `ssh_username` }}: /CRI_XCBC",
       "sudo yum install -y epel-release",
       "sudo yum install -y ansible git vim bash-completion",
       "sudo yum install -y NetworkManager",
@@ -36,7 +35,7 @@
    {
     "type": "shell",
     "inline": [
-      "sudo ansible-playbook -c local -i /CRI_XCBC/hosts -l `hostname -s` /CRI_XCBC/site.yaml -b"
+      "sudo ansible-playbook -c local -i /CRI_XCBC/hosts -l `hostname -s` /CRI_XCBC/site-build.yaml -b"
     ]
    }
   ]
