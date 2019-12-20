@@ -5,7 +5,7 @@
 	  "networks": [ "{{ user `external-net` }}","{{ user `internal-net` }}"], 
 	  "instance_floating_ip_net": "{{ user `external-net` }}",
 	  "instance_name": "{{ user `build_instance_name` }}",
-	  "image_name": "{{ user `build_instance_name` }}-V{{user `img_build_version`}}",
+	  "image_name": "{{ user `build_instance_name` }}-V{{user `build_version`}}",
 	  "ssh_username": "{{ user `ssh_username` }}",
 	  "ssh_keypair_name": "{{ user `ssh_keypair_name` }}",
 	  "ssh_private_key_file": "{{ user `private_key_file-path` }}",
