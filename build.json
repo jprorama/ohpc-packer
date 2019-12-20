@@ -2,8 +2,8 @@
   "builders": [{
 	  "type": "openstack",
 	  "source_image_name": "{{ user `source_image_name` }}",
-	  "networks": [ "{{ user `external-net-ID` }}","{{ user `internal-net-ID` }}"], 
-	  "instance_floating_ip_net": "{{ user `external-net-ID` }}",
+	  "networks": [ "{{ user `external-net` }}","{{ user `internal-net` }}"], 
+	  "instance_floating_ip_net": "{{ user `external-net` }}",
 	  "instance_name": "{{ user `build_instance_name` }}",
 	  "image_name": "{{ user `build_instance_name` }}-V{{user `img_build_version`}}",
 	  "ssh_username": "{{ user `ssh_username` }}",
