@@ -1,3 +1,6 @@
 [submodule "CRI_XCBC"]
 	path = CRI_XCBC
 	url = https://github.com/jprorama/CRI_XCBC.git
+[submodule "CRI_Cluster_Monitor"]
+	path = CRI_Cluster_Monitor
+	url = https://github.com/eesaanatluri/CRI_Cluster_Monitor.git
