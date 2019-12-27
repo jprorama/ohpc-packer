@@ -18,6 +18,7 @@
     "type": "shell",
     "inline": [
       "sudo mkdir -p /CRI_XCBC && sudo chown {{ user `ssh_username` }}: /CRI_XCBC",
+      "sudo mkdir -p /CRI_Cluster_Monitor && sudo chown {{ user `ssh_username` }}: /CRI_Cluster_Monitor",
       "sudo yum install -y epel-release",
       "sudo yum install -y ansible git vim bash-completion",
       "sudo yum install -y NetworkManager",
