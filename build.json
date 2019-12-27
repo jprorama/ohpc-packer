@@ -42,7 +42,8 @@
    {
     "type": "shell",
     "inline": [
-      "sudo ansible-playbook -c local -i /CRI_XCBC/hosts -l `hostname -s` /CRI_XCBC/site-build.yaml -b"
+      "sudo ansible-playbook -c local -i /CRI_XCBC/hosts -l `hostname -s` /CRI_XCBC/site-build.yaml -b",
+      "sudo ansible-playbook -c local -i /CRI_XCBC/hosts -l `hostname -s` /CRI_Cluster_Monitor/clustermon.yml -b"
     ]
    }
   ]
