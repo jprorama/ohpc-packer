@@ -32,6 +32,12 @@
     "source": "CRI_XCBC/",
     "destination": "/CRI_XCBC/"
    },
+   
+   {
+    "type": "file",
+    "source": "CRI_Cluster_Monitor/",
+    "destination": "/CRI_Cluster_Monitor/"
+   },
 
    {
     "type": "shell",
