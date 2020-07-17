@@ -21,8 +21,11 @@ def create_subnetwork(name, network, cidr, dns=None):
 
 # User defined
 filename = "compute-vars.json"
+router_name = "dmzrouter"
 external_network = "dmznet"
+external_subnetwork = "dmzsubnet"
 internal_network = "clusternet"
+internal_subnetwork = "clustersubnet"
 bright_network = "bright-external-flat-externalnet"
 ssh_keypair = "os-gen-keypair"
 host_prefix = "164.111.161.{}"
