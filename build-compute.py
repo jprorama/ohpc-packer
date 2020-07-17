@@ -109,16 +109,16 @@ if not found:
     check_output('openstack router add subnet {} {}'.format(router_id, external_subnet), shell=True)
 print('done')
 
-# find usable floating ip
-floating_ip = check_output('openstack floating ip list -c "Floating IP Address" --sort-column ID --status DOWN -f value', shell=True).decode('utf-8').split("\n")[0]
+# checking available floating ip
+print('Checking available floating ip...')
+floating_ip = check_output('openstack floating ip list -c ID -c "Floating IP Address" --sort-column ID --status DOWN -f value', shell=True).decode('utf-8').split("\n")[0]
 
-# allocate one if no usable
-if floating_ip == "":
-  print("No free floating ip\nCreating...")
-  floating_ip = check_output('openstack floating ip create -c floating_ip_address -f value {}'.format(public_network), shell=True).decode('utf-8').strip()
-
-# find usable floating ip id
-floating_ip_id = check_output('openstack floating ip list -c ID --sort-column ID --status DOWN -f value', shell=True).decode('utf-8').split("\n")[0]
+if floating_ip:
+    floating_ip_id, floating_ip = floating_ip.split()
+else:
+    print("No avilable floating ip\nCreating...")
+    floating_ip, floating_ip_id = check_output('openstack floating ip create -c id -c floating_ip_address -f value {}'.format(bright_network), shell=True).decode('utf-8').strip().split()
+print("done")
 
 var['external-net'] = external_net
 var['internal-net'] = internal_net
