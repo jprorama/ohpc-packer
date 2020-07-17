@@ -61,12 +61,28 @@ if external_net == "":
     create_subnetwork(external_subnetwork, network=external_net, cidr='192.168.100.0/24', dns=['172.20.0.137', '172.20.0.3', '8.8.8.8'])
 print('done')
 
+# check if external network has subnet
+print('Checking external network subnet...')
+external_subnet = check_output('openstack subnet list --network {} -c ID -f value'.format(external_net), shell=True).decode('utf-8').strip()
+if external_subnet == "":
+    print('External network \'{}\' does not have subnet.\nCreating...'.format(external_network))
+    external_subnet = create_subnetwork(external_subnetwork, network=external_net, cidr='192.168.100.0/24', dns=['172.20.0.137', '172.20.0.3', '8.8.8.8'])
+print('done')
+
 # get internal network id
 internal_net = check_output('openstack network list --name {} -c ID -f value'.format(internal_network), shell=True).decode('utf-8').strip()
 if internal_net == "":
     print('Internal network \'{}\' not exist.\nCreating...'.format(internal_network))
     internal_net = create_network(internal_network)
     create_subnetwork(internal_subnetwork, network=internal_net, cidr='10.1.1.0/24')
+print('done')
+
+# check if internal network has subnet
+print('Checking internal network subnet...')
+internal_subnet = check_output('openstack subnet list --network {} -c ID -f value'.format(internal_net), shell=True).decode('utf-8').strip()
+if internal_subnet == "":
+    print('Internal network \'{}\' does not have subnet.\nCreating...'.format(internal_network))
+    internal_subnet = create_subnetwork(internal_subnetwork, network=internal_net, cidr='10.1.1.0/24')
 print('done')
 
 # find usable floating ip
