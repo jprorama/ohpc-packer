@@ -85,6 +85,30 @@ if internal_subnet == "":
     internal_subnet = create_subnetwork(internal_subnetwork, network=internal_net, cidr='10.1.1.0/24')
 print('done')
 
+# check if router exist
+print('Checking router...')
+router_id = check_output('openstack router list --name {} -c ID -f value'.format(router_name), shell=True).decode('utf-8').strip()
+
+if router_id == "":
+    print('Router \'{}\' not exist.\nCreating...'.format(router_name))
+    router_id = check_output('openstack router create -c id -f value {}'.format(router_name), shell=True).decode('utf-8').strip()
+    check_output('openstack router set {} --external-gateway {}'.format(router_id, bright_net_id), shell=True)
+    check_output('openstack router add subnet {} {}'.format(router_id, external_subnet), shell=True)
+print('done')
+
+# check if external subnet is in interfaces of router
+print('Checking interfaces of router...')
+interfaces = json.loads(check_output('openstack router show -c interfaces_info -f json {}'.format(router_name), shell=True).decode('utf-8').strip())['interfaces_info']
+found = False
+for i in interfaces:
+    if i['subnet_id'] == external_subnet:
+        found = True
+
+if not found:
+    print('Subnet not in the interface.\nAdding...')
+    check_output('openstack router add subnet {} {}'.format(router_id, external_subnet), shell=True)
+print('done')
+
 # find usable floating ip
 floating_ip = check_output('openstack floating ip list -c "Floating IP Address" --sort-column ID --status DOWN -f value', shell=True).decode('utf-8').split("\n")[0]
 
