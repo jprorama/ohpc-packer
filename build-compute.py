@@ -54,6 +54,7 @@ if src_image == "":
 print('done')
 
 # get external network id
+print('Checking external network...')
 external_net = check_output('openstack network list --name {} -c ID -f value'.format(external_network), shell=True).decode('utf-8').strip()
 if external_net == "":
     print('External network \'{}\' not exist.\nCreating...'.format(external_network))
@@ -70,6 +71,7 @@ if external_subnet == "":
 print('done')
 
 # get internal network id
+print('Checking internal network...')
 internal_net = check_output('openstack network list --name {} -c ID -f value'.format(internal_network), shell=True).decode('utf-8').strip()
 if internal_net == "":
     print('Internal network \'{}\' not exist.\nCreating...'.format(internal_network))
