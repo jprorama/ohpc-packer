@@ -4,6 +4,21 @@ from subprocess import check_output, call
 import sys
 import json
 
+def create_network(name):
+    return check_output('openstack network create -c id -f value {}'.format(name), shell=True).decode('utf-8').strip()
+
+def create_subnetwork(name, network, cidr, dns=None):
+    cmd = 'openstack subnet create -c id -f value'
+    cmd += ' --network {}'.format(network)
+    cmd += ' --subnet-range {}'.format(cidr)
+    if dns is not None:
+        for server in dns:
+            cmd += ' --dns-nameserver {}'.format(server)
+
+    cmd += ' {}'.format(name)
+
+    return check_output(cmd, shell=True).decode('utf-8').strip()
+
 # User defined
 filename = "compute-vars.json"
 external_network = "dmznet"
