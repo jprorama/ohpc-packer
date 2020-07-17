@@ -45,6 +45,14 @@ print('Checking bright network...')
 bright_net_id = check_output('openstack network list --name {} -c ID -f value'.format(bright_network), shell=True).decode('utf-8').strip()
 print('done')
 
+# check if source_image exist
+print('Checking source image...')
+src_image = check_output('openstack image list --name {} -c ID -f value'.format(var['source_image_name']), shell=True).decode('utf-8').strip()
+if src_image == "":
+    print('Source image: \'{}\' not exist.\nPlease specify another image name.'.format(var['source_image_name']))
+    exit(1)
+print('done')
+
 # get external network id
 external_net = check_output('openstack network list --name {} -c ID -f value'.format(external_network), shell=True).decode('utf-8').strip()
 
