@@ -1,3 +1,8 @@
 [submodule "CRI_XCBC"]
 	path = CRI_XCBC
 	url = https://github.com/jprorama/CRI_XCBC.git
+	branch = feat-add-pcp-on-compute
+[submodule "CRI_Cluster_Monitor"]
+	path = CRI_Cluster_Monitor
+	url = https://github.com/eesaanatluri/CRI_Cluster_Monitor.git
+	branch = feat-add-open-xdmod

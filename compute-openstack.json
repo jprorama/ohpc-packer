@@ -27,7 +27,7 @@
       },
       {
          "type": "ansible-local",
-         "playbook_file": "CRI_XCBC/site.yaml",
+         "playbook_file": "CRI_XCBC/site-build.yaml",
          "playbook_dir": "CRI_XCBC",
          "inventory_groups": "compute",
          "extra_arguments": [ "-b" ]

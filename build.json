@@ -2,14 +2,14 @@
   "builders": [{
 	  "type": "openstack",
 	  "source_image_name": "{{ user `source_image_name` }}",
-	  "networks": [ "{{ user `external-net-ID` }}","{{ user `internal-net-ID` }}"], 
-	  "instance_floating_ip_net": "{{ user `external-net-ID` }}",
+	  "networks": [ "{{ user `external-net` }}","{{ user `internal-net` }}"], 
+	  "instance_floating_ip_net": "{{ user `external-net` }}",
 	  "instance_name": "{{ user `build_instance_name` }}",
-	  "image_name": "{{ user `build_instance_name` }}-V{{user `img_build_version`}}",
+	  "image_name": "{{ user `build_instance_name` }}-V{{user `build_version`}}",
 	  "ssh_username": "{{ user `ssh_username` }}",
 	  "ssh_keypair_name": "{{ user `ssh_keypair_name` }}",
-	  "ssh_private_key_file": "{{ user `private_key_file-path` }}",
-	  "ssh_host": "{{ user `ssh_host-IP` }}",
+	  "ssh_private_key_file": "{{ user `private_key_file` }}",
+	  "ssh_host": "{{ user `ssh_host` }}",
 	  "reuse_ips": true,
 	  "flavor": "{{ user `flavor` }}"
   }],
@@ -18,6 +18,7 @@
     "type": "shell",
     "inline": [
       "sudo mkdir -p /CRI_XCBC && sudo chown {{ user `ssh_username` }}: /CRI_XCBC",
+      "sudo mkdir -p /CRI_Cluster_Monitor && sudo chown {{ user `ssh_username` }}: /CRI_Cluster_Monitor",
       "sudo yum install -y epel-release",
       "sudo yum install -y ansible git vim bash-completion",
       "sudo yum install -y NetworkManager",
@@ -31,11 +32,18 @@
     "source": "CRI_XCBC/",
     "destination": "/CRI_XCBC/"
    },
+   
+   {
+    "type": "file",
+    "source": "CRI_Cluster_Monitor/",
+    "destination": "/CRI_Cluster_Monitor/"
+   },
 
    {
     "type": "shell",
     "inline": [
-      "sudo ansible-playbook -c local -i /CRI_XCBC/hosts -l `hostname -s` /CRI_XCBC/site-build.yaml -b"
+      "sudo ansible-playbook -c local -i /CRI_XCBC/hosts -l `hostname -s` /CRI_XCBC/site-build.yaml -b",
+      "sudo ansible-playbook -c local -i /CRI_XCBC/hosts -l `hostname -s` /CRI_Cluster_Monitor/clustermon.yml -b"
     ]
    }
   ]
