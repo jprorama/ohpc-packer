@@ -55,9 +55,19 @@ print('done')
 
 # get external network id
 external_net = check_output('openstack network list --name {} -c ID -f value'.format(external_network), shell=True).decode('utf-8').strip()
+if external_net == "":
+    print('External network \'{}\' not exist.\nCreating...'.format(external_network))
+    external_net = create_network(external_network)
+    create_subnetwork(external_subnetwork, network=external_net, cidr='192.168.100.0/24', dns=['172.20.0.137', '172.20.0.3', '8.8.8.8'])
+print('done')
 
 # get internal network id
 internal_net = check_output('openstack network list --name {} -c ID -f value'.format(internal_network), shell=True).decode('utf-8').strip()
+if internal_net == "":
+    print('Internal network \'{}\' not exist.\nCreating...'.format(internal_network))
+    internal_net = create_network(internal_network)
+    create_subnetwork(internal_subnetwork, network=internal_net, cidr='10.1.1.0/24')
+print('done')
 
 # find usable floating ip
 floating_ip = check_output('openstack floating ip list -c "Floating IP Address" --sort-column ID --status DOWN -f value', shell=True).decode('utf-8').split("\n")[0]
