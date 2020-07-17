@@ -40,6 +40,11 @@ var = {
     'flavor': 'm1.medium'
     }
 
+# check for bright network id
+print('Checking bright network...')
+bright_net_id = check_output('openstack network list --name {} -c ID -f value'.format(bright_network), shell=True).decode('utf-8').strip()
+print('done')
+
 # get external network id
 external_net = check_output('openstack network list --name {} -c ID -f value'.format(external_network), shell=True).decode('utf-8').strip()
 
