@@ -46,11 +46,16 @@ python build-compute.py
 
 ## Build improvements
 
-This new method supports changing the underlying build environment
+This updated method supports changing the underlying build environment
 networks frequently as builds and deploys are iterrated. The
 command line vars also override variable file values to control
 image names and work around some inconsistently named variables
 between the ohpc/ood and compute builds.
+
+Run the gen-vars.py to generate a vars file.
+```
+python gen-vars.py
+```
 
 Run the buildvars script to get your dmznet and clusternet IDs loaded
 into environment variables.
@@ -81,14 +86,11 @@ packer build --var-file=vars.json -var "build_host=ood" -var "build_instance_nam
 
 ### Build compute
 
-The compute image build is slightly more complex only because the variable naming conventions
-are differnet so we have to explicitly list some values that aren't coming from the var file.
-Fixing these differences should keep all steps consistent.  Also there is no build type
-because the compute node is built entirely with yum install in the packer config json.
-Remember to replace the floating IP to an unassociated IP already allocated to your project.
+The build of compute is similar but should have the exernal network explicitely set from
+the environment. Also because we use a dedicated packer file, the build host type is not 
+needed.
 ```
 packer build --var-file=vars.json -var "build_instance_name=compute-featname" \
-             -var "build_version=0.1" -var "floating_id=<floatingip>" \
-             -var "external-net=$DMZNET" -var "ssh_host=<floatingip>" \
-             -var "private_key_file=~/.ssh/id_rsa" compute-openstack.json
+             -var "build_version=0.1" -var "external-net=$DMZNET" \
+             compute-openstack.json
 ```
