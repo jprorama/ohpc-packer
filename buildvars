@@ -1,0 +1,5 @@
+dmznet=`openstack network list --name $1 -f value -c ID`
+cnet=`openstack network list --name $2 -f value -c ID`
+
+echo export DMZNET=$dmznet
+echo export CNET=$cnet
