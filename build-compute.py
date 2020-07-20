@@ -45,6 +45,18 @@ print('Checking bright network...')
 bright_net_id = check_output('openstack network list --name {} -c ID -f value'.format(bright_network), shell=True).decode('utf-8').strip()
 print('done')
 
+# check if key pair exist
+print('Checking key pair...')
+keypairs = json.loads(check_output('openstack keypair list -f json -c Name', shell=True).decode('utf-8').strip())
+found = False
+for k in keypairs:
+    if k['name'] == ssh_keypair:
+        found = True
+if not found:
+    print('Keypair not exist. Please create one on openstack.')
+    exit(1)
+print('done')
+
 # check if source_image exist
 print('Checking source image...')
 src_image = check_output('openstack image list --name {} -c ID -f value'.format(var['source_image_name']), shell=True).decode('utf-8').strip()
