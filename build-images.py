@@ -20,7 +20,7 @@ def create_subnetwork(name, network, cidr, dns=None):
     return check_output(cmd, shell=True).decode('utf-8').strip()
 
 # User defined
-filename = "compute-vars.json"
+filename = "vars.json"
 router_name = "dmzrouter"
 external_network = "dmznet"
 external_subnetwork = "dmzsubnet"
