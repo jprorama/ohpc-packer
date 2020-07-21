@@ -146,5 +146,7 @@ with open(filename, 'w') as f:  # writing JSON object
 
 # Build ohpc image
 call('packer build --var-file={} ohpc-openstack.json'.format(filename), stdout=sys.stdout, shell=True)
+# Build ood image
+call('packer build --var-file={} ood-openstack.json'.format(filename), stdout=sys.stdout, shell=True)
 # Build comput image
 call('packer build --var-file={} compute-openstack.json'.format(filename), stdout=sys.stdout, shell=True)
