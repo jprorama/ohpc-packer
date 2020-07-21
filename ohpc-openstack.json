@@ -1,0 +1,38 @@
+{
+  "builders":[
+    {
+      "type": "openstack",
+      "image_name": "ohpc-V{{user `build_version`}}",
+      "source_image_name": "{{ user `source_image_name` }}",
+      "flavor": "{{ user `flavor` }}",
+      "floating_ip": "{{ user `floating_ip` }}",
+      "networks": ["{{ user `external-net` }}", "{{ user `internal-net`}}"],
+      "instance_floating_ip_net": "{{ user `external-net` }}",
+      "ssh_host": "{{ user `ssh_host` }}",
+      "ssh_username": "{{ user `ssh_username` }}",
+      "ssh_keypair_name": "{{ user `ssh_keypair_name` }}",
+      "ssh_private_key_file": "{{ user `private_key_file` }}",
+      "reuse_ips": true
+    }
+  ],
+  "provisioners": [
+    {
+      "type": "shell",
+      "inline": [
+        "sudo mkdir -p /CRI_XCBC && sudo chown {{ user `ssh_username` }}: /CRI_XCBC",
+        "sudo yum install -y epel-release",
+        "sudo yum install -y ansible git vim bash-completion",
+        "sudo yum install -y NetworkManager",
+        "sudo systemctl restart NetworkManager",
+        "sudo nmcli con mod 'Wired connection 1' connection.id 'eth1'"
+      ]
+    },
+    {
+      "type": "ansible-local",
+      "playbook_file": "CRI_XCBC/site-build.yaml",
+      "playbook_dir": "CRI_XCBC",
+      "inventory_groups": "ohpc",
+      "extra_arguments": [ "-b" ]
+    }
+  ]
+}

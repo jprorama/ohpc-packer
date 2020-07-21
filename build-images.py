@@ -144,4 +144,7 @@ print(json.dumps(var, indent=4))
 with open(filename, 'w') as f:  # writing JSON object
     json.dump(var, f, indent=8)
 
+# Build ohpc image
+call('packer build --var-file={} ohpc-openstack.json'.format(filename), stdout=sys.stdout, shell=True)
+# Build comput image
 call('packer build --var-file={} compute-openstack.json'.format(filename), stdout=sys.stdout, shell=True)
