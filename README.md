@@ -94,3 +94,19 @@ packer build --var-file=vars.json -var "build_instance_name=compute-featname" \
              -var "build_version=0.1" -var "external-net=$DMZNET" \
              compute-openstack.json
 ```
+
+### Alternative build
+
+Utilize `build-image.py` script which takes care of getting all needed resources from `openstack` for a build. The script will build all three images, i.e. ohpc, ood, and compute, with image name pattern `{NODE}-V{VERSION}`.
+
+```shell
+
+# Install required packages
+pip install -r requirements.txt
+
+# Modify the user defined section as needed
+vim build-images.py
+
+# Run the script
+./build-images.py
+```
