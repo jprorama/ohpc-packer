@@ -50,7 +50,7 @@ print('Checking key pair...')
 keypairs = json.loads(check_output('openstack keypair list -f json -c Name', shell=True).decode('utf-8').strip())
 found = False
 for k in keypairs:
-    if k['name'] == ssh_keypair:
+    if k['Name'] == ssh_keypair:
         found = True
 if not found:
     print('Keypair not exist. Please create one on openstack.')
