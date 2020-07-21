@@ -2,7 +2,7 @@
    "builders":[
       {
          "type": "openstack",
-         "image_name": "{{ user `build_instance_name` }}-v{{user `build_version`}}",
+         "image_name": "compute-V{{user `build_version`}}",
          "source_image_name": "{{ user `source_image_name` }}",
          "flavor": "{{ user `flavor` }}",
          "floating_ip": "{{ user `floating_ip` }}",
