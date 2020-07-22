@@ -28,6 +28,7 @@ internal_network = "clusternet"
 internal_subnetwork = "clustersubnet"
 bright_network = "bright-external-flat-externalnet"
 ssh_keypair = "os-gen-keypair"
+public_key_file = '~/.ssh/id_rsa.pub'
 host_prefix = "164.111.161.{}"
 
 var = {
@@ -53,8 +54,8 @@ for k in keypairs:
     if k['Name'] == ssh_keypair:
         found = True
 if not found:
-    print('Keypair not exist. Please create one on openstack.')
-    exit(1)
+    print('Keypair \'{}\' not exist. \nCreating...'.format(ssh_keypair))
+    check_output('openstack keypair create --public-key {} {}'.format(public_key_file, ssh_keypair), shell=True).decode('utf-8').strip()
 print('done')
 
 # check if source_image exist
