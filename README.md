@@ -26,6 +26,12 @@ make dev
 PATH=~/go/src/github.com/hashicorp/packer/bin:$PATH
 ```
 
+Initialize CRI_XCBC submodule:
+```shell
+git submodule init
+git submodule update
+```
+
 ## Building a compute image:
 
 - This build script will handle floating ip, ssh host for you. All you need to change is user define section in the `build-compute.py`.
