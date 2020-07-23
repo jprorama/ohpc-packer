@@ -29,9 +29,10 @@
     },
     {
       "type": "ansible-local",
-      "playbook_file": "CRI_XCBC/site-build.yaml",
+      "staging_directory": "/CRI_XCBC",
+      "playbook_file": "site-build.yaml",
       "playbook_dir": "CRI_XCBC",
-      "inventory_file": "CRI_XCBC/hosts",
+      "inventory_file": "hosts",
       "extra_arguments": [ "-b", "--limit ohpc" ]
     }
   ]
