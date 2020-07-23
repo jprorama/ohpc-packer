@@ -150,4 +150,26 @@ call('packer build --var-file={} ohpc-openstack.json'.format(filename), stdout=s
 # Build ood image
 call('packer build --var-file={} ood-openstack.json'.format(filename), stdout=sys.stdout, shell=True)
 # Build comput image
-call('packer build --var-file={} compute-openstack.json'.format(filename), stdout=sys.stdout, shell=True)
+call(
+    "packer build --var-file={} compute-openstack.json".format(filename),
+    stdout=sys.stdout,
+    shell=True,
+)
+
+
+# Delete network, subnet and router scaffolding setting
+
+print("\nDeleting scaffolding (networks, subnets and routers ) .....")
+call(
+    f"openstack router remove subnet {router_id} {external_subnet}",
+    stdout=sys.stdout,
+    shell=True,
+)
+call(f"openstack router delete {router_id}", stdout=sys.stdout, shell=True)
+call(f"openstack floating ip delete {floating_ip_id}", stdout=sys.stdout, shell=True)
+call(f"openstack subnet delete {external_subnet}", stdout=sys.stdout, shell=True)
+call(f"openstack network delete {external_net}", stdout=sys.stdout, shell=True)
+call(f"openstack subnet delete {internal_subnet}", stdout=sys.stdout, shell=True)
+call(f"openstack network delete {internal_net}", stdout=sys.stdout, shell=True)
+
+print("done")
