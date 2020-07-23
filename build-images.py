@@ -37,12 +37,12 @@ internal_network = "clusternet"
 internal_subnetwork = "clustersubnet"
 bright_network = "bright-external-flat-externalnet"
 ssh_keypair = "os-gen-keypair"
-public_key_file = '~/.ssh/id_rsa.pub'
+public_key_file = "~/.ssh/id_rsa.pub"
 host_prefix = "164.111.161.{}"
 
 var = {
     "build_instance_name": "compute",
-    "build_version": "3",
+    "build_version": "4",
     "source_image_name": "CentOS-7-x86_64-GenericCloud-1905",
     "private_key_file": "~/.ssh/id_rsa",
     "ssh_username": "centos",
@@ -74,9 +74,14 @@ for k in keypairs:
     if k["Name"] == ssh_keypair:
         found = True
 if not found:
-    print('Keypair \'{}\' not exist. \nCreating...'.format(ssh_keypair))
-    check_output('openstack keypair create --public-key {} {}'.format(public_key_file, ssh_keypair), shell=True).decode('utf-8').strip()
-print('done')
+    print("Keypair '{}' not exist. \nCreating...".format(ssh_keypair))
+    check_output(
+        "openstack keypair create --public-key {} {}".format(
+            public_key_file, ssh_keypair
+        ),
+        shell=True,
+    ).decode("utf-8").strip()
+print("done")
 
 # check if source_image exist
 print("Checking source image...")
@@ -307,5 +312,5 @@ call(f"openstack subnet delete {external_subnet}", stdout=sys.stdout, shell=True
 call(f"openstack network delete {external_net}", stdout=sys.stdout, shell=True)
 call(f"openstack subnet delete {internal_subnet}", stdout=sys.stdout, shell=True)
 call(f"openstack network delete {internal_net}", stdout=sys.stdout, shell=True)
-
+call(f"openstack keypair delete {ssh_keypair}", stdout=sys.stdout, shell=True)
 print("done")
