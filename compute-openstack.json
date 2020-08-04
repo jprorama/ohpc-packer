@@ -18,6 +18,7 @@
       {
          "type": "shell",
          "inline": [
+             "sudo mkdir -p /CRI_XCBC && sudo chown {{ user `ssh_username` }}: /CRI_XCBC",
              "sudo sed -i /etc/hosts -e \"s/^127.0.0.1 localhost$/127.0.0.1 localhost $(hostname)/\"",
              "sudo yum install -y epel-release",
              "sudo yum install -y vim NetworkManager ansible git bash-completion",
@@ -28,7 +29,7 @@
       {
          "type": "ansible-local",
          "staging_directory": "/CRI_XCBC",
-         "playbook_file": "CRI_XCBC/site.yaml",
+         "playbook_file": "CRI_XCBC/site-build.yaml",
          "playbook_dir": "CRI_XCBC",
          "inventory_groups": "compute",
          "extra_arguments": [ "-b" ]
