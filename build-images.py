@@ -294,6 +294,7 @@ if not args.skip:
 
 # Build ohpc image
 if BUILD_ALL or args.ohpc:
+    print("Building ohpc image...")
     call(
         "packer build --var-file={} ohpc-openstack.json".format(filename),
         stdout=sys.stdout,
@@ -301,6 +302,7 @@ if BUILD_ALL or args.ohpc:
     )
 # Build ood image
 if BUILD_ALL or args.ood:
+    print("Building ood image...")
     call(
         "packer build --var-file={} ood-openstack.json".format(filename),
         stdout=sys.stdout,
@@ -308,6 +310,7 @@ if BUILD_ALL or args.ood:
     )
 # Build comput image
 if BUILD_ALL or args.compute:
+    print("Building compute image...")
     call(
         "packer build --var-file={} compute-openstack.json".format(filename),
         stdout=sys.stdout,
