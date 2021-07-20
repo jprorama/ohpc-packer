@@ -50,6 +50,7 @@ internal_network = "clusternet"
 internal_subnetwork = "clustersubnet"
 bright_network = "uab-campus"
 ssh_keypair = "os-gen-keypair"
+secgroup = "ssh-secgroup"
 public_key_file = "~/.ssh/id_rsa.pub"
 
 var = {
@@ -60,6 +61,7 @@ var = {
     "ssh_username": "centos",
     "ssh_keypair_name": ssh_keypair,
     "flavor": "m1.medium",
+    "security_groups": secgroup,
 }
 
 if not args.skip:
@@ -94,6 +96,29 @@ if not args.skip:
             ),
             shell=True,
         ).decode("utf-8").strip()
+    print("done")
+
+    print("Checking security group...")
+    secgroups = json.loads(
+        check_output("openstack security group list -f json -c Name", shell=True)
+        .decode("utf-8")
+        .strip()
+    )
+    found = False
+    for k in secgroups:
+        if k["Name"] == secgroup:
+            found = True
+    if not found:
+        print("Security group '{}' not exist. \nCreating...".format(secgroup))
+        check_output(
+            "openstack security group create {}".format(secgroup),
+            shell=True,
+        ).decode("utf-8").strip()
+        check_output(
+            "openstack security group rule create --dst-port 22:22 --protocol tcp {}".format(secgroup),
+            shell=True,
+        ).decode("utf-8").strip()
+
     print("done")
 
     # check if source_image exist
