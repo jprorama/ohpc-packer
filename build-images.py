@@ -48,14 +48,13 @@ external_network = "dmznet"
 external_subnetwork = "dmzsubnet"
 internal_network = "clusternet"
 internal_subnetwork = "clustersubnet"
-bright_network = "bright-external-flat-externalnet"
+bright_network = "uab-campus"
 ssh_keypair = "os-gen-keypair"
 public_key_file = "~/.ssh/id_rsa.pub"
-host_prefix = "164.111.161.{}"
 
 var = {
     "build_instance_name": "compute",
-    "build_version": "4",
+    "build_version": "1",
     "source_image_name": "CentOS-7-x86_64-GenericCloud-1905",
     "private_key_file": "~/.ssh/id_rsa",
     "ssh_username": "centos",
@@ -135,7 +134,7 @@ if not args.skip:
             external_subnetwork,
             network=external_net,
             cidr="192.168.100.0/24",
-            dns=["172.20.0.137", "172.20.0.3", "8.8.8.8"],
+            dns=["138.26.1.134", "138.26.1.2", "8.8.8.8"],
         )
     print("done")
 
@@ -286,7 +285,7 @@ if not args.skip:
     var["internal-net"] = internal_net
     var["instance_floating_ip_net"] = external_net
     var["floating_ip"] = floating_ip_id
-    var["ssh_host"] = host_prefix.format(floating_ip.split(".")[-1])
+    var["ssh_host"] = floating_ip
 
     print(json.dumps(var, indent=4))
     with open(filename, "w") as f:  # writing JSON object
