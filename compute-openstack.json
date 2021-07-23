@@ -2,7 +2,7 @@
    "builders":[
       {
          "type": "openstack",
-         "image_name": "{{ user `build_instance_name` }}-v{{user `build_version`}}",
+         "image_name": "compute-V{{user `build_version`}}",
          "source_image_name": "{{ user `source_image_name` }}",
          "flavor": "{{ user `flavor` }}",
          "floating_ip": "{{ user `floating_ip` }}",
@@ -11,6 +11,7 @@
          "ssh_username": "{{ user `ssh_username` }}",
          "ssh_keypair_name": "{{ user `ssh_keypair_name` }}",
          "ssh_private_key_file": "{{ user `private_key_file` }}",
+         "security_groups": "{{ user `security_groups` }}",
          "reuse_ips": true
       }
    ],
@@ -18,6 +19,7 @@
       {
          "type": "shell",
          "inline": [
+             "sudo mkdir -p /CRI_XCBC && sudo chown {{ user `ssh_username` }}: /CRI_XCBC",
              "sudo sed -i /etc/hosts -e \"s/^127.0.0.1 localhost$/127.0.0.1 localhost $(hostname)/\"",
              "sudo yum install -y epel-release",
              "sudo yum install -y vim NetworkManager ansible git bash-completion",
@@ -27,7 +29,8 @@
       },
       {
          "type": "ansible-local",
-         "playbook_file": "CRI_XCBC/site.yaml",
+         "staging_directory": "/CRI_XCBC",
+         "playbook_file": "CRI_XCBC/site-build.yaml",
          "playbook_dir": "CRI_XCBC",
          "inventory_groups": "compute",
          "extra_arguments": [ "-b" ]

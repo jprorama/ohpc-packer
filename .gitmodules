@@ -1,3 +1,4 @@
 [submodule "CRI_XCBC"]
 	path = CRI_XCBC
-	url = https://github.com/jprorama/CRI_XCBC.git
+	url = https://github.com/diedpigs/CRI_XCBC.git
+	branch = feat-compute-build-image

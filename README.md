@@ -26,6 +26,12 @@ make dev
 PATH=~/go/src/github.com/hashicorp/packer/bin:$PATH
 ```
 
+Initialize CRI_XCBC submodule:
+```shell
+git submodule init
+git submodule update
+```
+
 ## Building a compute image:
 
 - This build script will handle floating ip, ssh host for you. All you need to change is user define section in the `build-compute.py`.
@@ -93,4 +99,20 @@ needed.
 packer build --var-file=vars.json -var "build_instance_name=compute-featname" \
              -var "build_version=0.1" -var "external-net=$DMZNET" \
              compute-openstack.json
+```
+
+### Alternative build
+
+Utilize `build-image.py` script which takes care of getting all needed resources from `openstack` for a build. The script will build all three images, i.e. ohpc, ood, and compute, with image name pattern `{NODE}-V{VERSION}`.
+
+```shell
+
+# Install required packages
+pip install -r requirements.txt
+
+# Modify the user defined section as needed
+vim build-images.py
+
+# Run the script
+./build-images.py
 ```
